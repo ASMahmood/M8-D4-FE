@@ -19,9 +19,7 @@ class Read extends Component {
       let response = await fetch(
         "http://localhost:9001/articles/" + this.props.match.params.slug,
         {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("accessToken"),
-          },
+          credentials: "include",
         }
       );
       let article = await response.json();

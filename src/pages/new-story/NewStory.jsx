@@ -54,9 +54,9 @@ export default class NewStory extends Component {
       let response = await fetch("http://localhost:9001/authors", {
         method: "POST",
         body: JSON.stringify(body),
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("accessToken"),
         },
       });
       let res = await response.json(body);
@@ -72,9 +72,7 @@ export default class NewStory extends Component {
       let response = await fetch(
         "http://localhost:9001/authors/?name=" + this.state.authorName,
         {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("accessToken"),
-          },
+          credentials: "include",
         }
       );
       if (response.ok) {
@@ -98,9 +96,7 @@ export default class NewStory extends Component {
           authorID,
         {
           method: "POST",
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("accessToken"),
-          },
+          credentials: "include",
         }
       );
       console.log(response);
@@ -125,9 +121,9 @@ export default class NewStory extends Component {
           {
             method: "PUT",
             body: JSON.stringify(body),
+            credentials: "include",
             headers: {
               "Content-Type": "application/json",
-              Authorization: "Bearer " + localStorage.getItem("accessToken"),
             },
           }
         );
@@ -135,9 +131,9 @@ export default class NewStory extends Component {
         let response = await fetch("http://localhost:9001/articles/", {
           method: "POST",
           body: JSON.stringify(body),
+          credentials: "include",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("accessToken"),
           },
         });
         let res = await response.json();
@@ -154,9 +150,7 @@ export default class NewStory extends Component {
       let response = await fetch(
         "http://localhost:9001/articles/" + this.props.match.params.slug,
         {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("accessToken"),
-          },
+          credentials: "include",
         }
       );
       let article = await response.json();
@@ -209,13 +203,6 @@ export default class NewStory extends Component {
         />
         <input
           onKeyDown={this.onKeyDown}
-          placeholder="Your Name"
-          className="article-cover-input"
-          value={this.state.authorName}
-          onChange={(e) => this.setState({ authorName: e.currentTarget.value })}
-        />
-        <input
-          onKeyDown={this.onKeyDown}
           placeholder="Cover link e.g : https://picsum.photos/800"
           className="article-cover-input"
           value={this.state.img}
@@ -229,54 +216,6 @@ export default class NewStory extends Component {
         >
           Post
         </Button>
-
-        {this.state.createUser && (
-          <Container className="createUser">
-            <Row>
-              <Col>
-                <h5>
-                  We can't find a user with that name, so if you provide us an
-                  image we can make a new one!
-                </h5>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <input
-                  onKeyDown={this.onKeyDown}
-                  placeholder="Your Name"
-                  className="article-cover-input"
-                  value={this.state.authorName}
-                  onChange={(e) =>
-                    this.setState({ authorName: e.currentTarget.value })
-                  }
-                />
-              </Col>
-              <Col>
-                <input
-                  onKeyDown={this.onKeyDown}
-                  placeholder="Author Image Link"
-                  className="article-cover-input"
-                  value={this.state.authorImage}
-                  onChange={(e) =>
-                    this.setState({ authorImage: e.currentTarget.value })
-                  }
-                />
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <Button
-                  variant="success"
-                  className="post-btn"
-                  onClick={(e) => this.submitUserButton(e)}
-                >
-                  Create User and Post Article
-                </Button>
-              </Col>
-            </Row>
-          </Container>
-        )}
       </Container>
     );
   }

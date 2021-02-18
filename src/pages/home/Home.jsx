@@ -20,9 +20,7 @@ export default class Home extends Component {
   fetchArticles = async () => {
     try {
       let response = await fetch("http://localhost:9001/articles/", {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("accessToken"),
-        },
+        credentials: "include",
       });
       let articles = await response.json();
       console.log(articles);

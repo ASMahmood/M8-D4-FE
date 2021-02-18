@@ -17,13 +17,8 @@ export default function Login(props) {
           "Content-Type": "application/json",
         },
       });
-      let resp = await response.json();
-      if (resp.access) {
-        localStorage.setItem("accessToken", resp.access);
-        localStorage.setItem("refreshToken", resp.refresh);
-        props.history.push("/home");
-      }
-      console.log(resp);
+
+      props.history.push("/home");
     } catch (error) {
       console.log(error);
     }
@@ -36,8 +31,8 @@ export default function Login(props) {
         </Col>
       </Row>
       <Row>
-        <Col xs={12}>
-          <Form onSubmit={loginFetch}>
+        <Col xs={12} className=" d-flex justify-content-center">
+          <Form onSubmit={loginFetch} className="w-75 ">
             <Form.Group>
               <Form.Control
                 type="email"
@@ -56,10 +51,22 @@ export default function Login(props) {
                 onChange={(e) => setPassword(e.currentTarget.value)}
               />
             </Form.Group>
-            <Button variant="dark" type="submit">
+            <Button variant="dark" type="submit" className="w-100">
               LOGIN
             </Button>
           </Form>
+        </Col>
+      </Row>
+      <Row className="mt-5">
+        <Col xs={12} className="d-flex justify-content-center">
+          <a
+            href="http://localhost:9001/authors/3rdParty/google"
+            className="w-75"
+          >
+            <Button variant="dark" className="w-100">
+              LOGIN WITH GOOGLE
+            </Button>
+          </a>
         </Col>
       </Row>
     </Container>
