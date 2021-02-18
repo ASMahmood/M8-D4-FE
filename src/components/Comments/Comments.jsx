@@ -18,7 +18,8 @@ class Comments extends React.Component {
   fetchReviews = async () => {
     try {
       let response = await fetch(
-        "http://localhost:9001/articles/" + this.props.id + "/reviews"
+        "http://localhost:9001/articles/" + this.props.id + "/reviews",
+        { credentials: "include" }
       );
       let reviewsArray = await response.json();
       this.setState({ reviews: reviewsArray });
@@ -33,13 +34,14 @@ class Comments extends React.Component {
       let text = document.querySelector("#commentForReview").value;
       let body = {
         text: text,
-        user: "Not_Abdul",
+        user: localStorage.getItem("profileID"),
       };
       let response = await fetch(
         "http://localhost:9001/articles/" + this.props.id,
         {
           method: "POST",
           body: JSON.stringify(body),
+          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },
@@ -88,6 +90,7 @@ class Comments extends React.Component {
           reviewID,
         {
           method: "DELETE",
+          credentials: "include",
         }
       );
       if (response.ok) {
@@ -125,6 +128,7 @@ class Comments extends React.Component {
         {
           method: "PUT",
           body: JSON.stringify(body),
+          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },

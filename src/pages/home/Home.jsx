@@ -15,6 +15,22 @@ export default class Home extends Component {
 
   componentDidMount = () => {
     this.fetchArticles();
+    this.fetchProfile();
+  };
+
+  fetchProfile = async () => {
+    try {
+      let response = await fetch(
+        "http://localhost:9001/authors/homepage/login/help/me",
+        {
+          credentials: "include",
+        }
+      );
+      let profile = await response.json();
+      localStorage.setItem("profileID", profile._id);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   fetchArticles = async () => {

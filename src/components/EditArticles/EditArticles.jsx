@@ -9,6 +9,7 @@ class EditArticles extends React.Component {
         "http://localhost:9001/articles/" + this.props.article._id,
         {
           method: "DELETE",
+          credentials: "include",
         }
       );
       if (response.ok) {

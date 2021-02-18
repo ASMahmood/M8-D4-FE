@@ -35,58 +35,13 @@ export default class NewStory extends Component {
   };
   submitButton = (e) => {
     e.preventDefault();
-    if (this.state.authorName) {
-      this.verifyUser();
-    } else {
-      alert("You need to include a username");
-    }
+    this.postArticle();
   };
   submitUserButton = (e) => {
     e.preventDefault();
     this.createUser();
   };
-  createUser = async () => {
-    try {
-      let body = {
-        name: this.state.authorName,
-        img: this.state.authorImage,
-      };
-      let response = await fetch("http://localhost:9001/authors", {
-        method: "POST",
-        body: JSON.stringify(body),
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      let res = await response.json(body);
-      console.log(res);
-      this.postArticle(res);
-      this.setState({ createUser: false });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  verifyUser = async () => {
-    try {
-      let response = await fetch(
-        "http://localhost:9001/authors/?name=" + this.state.authorName,
-        {
-          credentials: "include",
-        }
-      );
-      if (response.ok) {
-        let author = await response.json();
-        console.log(author);
-        this.postArticle(author._id);
-      } else {
-        console.log("not found");
-        this.setState({ createUser: true });
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
   addArticleToUser = async (articleID, authorID) => {
     try {
       let response = await fetch(
@@ -104,11 +59,11 @@ export default class NewStory extends Component {
       console.log(error);
     }
   };
-  postArticle = async (authorID) => {
+  postArticle = async () => {
     try {
       let body = {
         category: this.state.category,
-        author: authorID,
+        author: localStorage.getItem("profileID"),
         headLine: this.state.title,
         subHead: this.state.subtitle,
         content: this.state.html,
@@ -138,7 +93,7 @@ export default class NewStory extends Component {
         });
         let res = await response.json();
         console.log("RESPONSE", res);
-        this.addArticleToUser(res, authorID);
+        this.addArticleToUser(res, localStorage.getItem("profileID"));
       }
       this.props.history.push("/home");
     } catch (error) {
